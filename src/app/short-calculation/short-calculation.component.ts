@@ -14,7 +14,7 @@ export class ShortCalculationComponent {
   oddsB = 0;
   oddsDraw = 0;
   targetPayout = 0;
-  maxDrawLossPercent = 50;
+  maxDrawLossPercent = 100;
 
   stakeA = 0;
   stakeB = 0;
@@ -35,7 +35,11 @@ export class ShortCalculationComponent {
     { label: 'Odds Team B', key: 'oddsB', model: 0 },
     { label: 'Target Payout', key: 'targetPayout', model: 0 },
     { label: 'Odds Draw', key: 'oddsDraw', model: 0 },
-    { label: 'Max Draw Loss %', key: 'maxDrawLoss', model: 50 },
+    {
+      label: 'Draw Loss %',
+      key: 'maxDrawLossPercent',
+      model: this.maxDrawLossPercent,
+    },
   ];
 
   ngOnInit(): void {
@@ -64,7 +68,7 @@ export class ShortCalculationComponent {
     const stakeWithoutDraw = this.stakeA + this.stakeB;
 
     // Optional draw protection
-    if (this.maxDrawLossPercent && this.maxDrawLossPercent > 0) {
+    if (this.maxDrawLossPercent >= 0) {
       const allowedDrawLoss =
         (this.maxDrawLossPercent / 100) * stakeWithoutDraw;
       this.stakeDraw =
