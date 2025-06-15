@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Momentum Trap Strategy Calculator</h2>
+
+  <label>Odds - Underdog:</label>
+  <input type="number" [(ngModel)]="oddsUnderdog" step="0.01" />
+
+  <label>Odds - Favorite:</label>
+  <input type="number" [(ngModel)]="oddsFavorite" step="0.01" />
+
+  <label>Total Budget ($):</label>
+  <input type="number" [(ngModel)]="budget" />
+
+  <button (click)="calculate()">Calculate Strategy</button>
+  <a href="">Back</a>
+  <div *ngIf="stakeUnderdog">
+    <h3>Recommended Stakes:</h3>
+    <p>Underdog: ${{ stakeUnderdog.toFixed(2) }}</p>
+    <p>Favorite: ${{ stakeFavorite.toFixed(2) }}</p>
+
+    <h3>Outcomes:</h3>
+    <p>
+      ✅ Underdog scores first & loses (Best Case):
+      <strong>${{ outcome1.toFixed(2) }}</strong>
+    </p>
+    <p>
+      🏆 Underdog wins: <strong>${{ outcome2.toFixed(2) }}</strong>
+    </p>
+    <p>
+      💪 Favorite wins clean: <strong>${{ outcome3.toFixed(2) }}</strong>
+    </p>
+    <p>
+      ⚠ Underdog loses, no first goal:
+      <strong>${{ outcome4.toFixed(2) }}</strong>
+    </p>
+  </div>
+</div>
