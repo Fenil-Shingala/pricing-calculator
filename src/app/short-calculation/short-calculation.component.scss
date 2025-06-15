@@ -1,0 +1,13 @@
+.short-calculation-container {
+  margin: 40px 50px;
+
+  @media (max-width: 768px) {
+    margin: 20px 25px;
+  }
+}
+
+.card-detail {
+  &:hover {
+    font-weight: bold;
+  }
+}

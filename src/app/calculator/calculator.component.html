@@ -1,12 +1,12 @@
-<div class="container my-4">
+<div class="bet-container">
   <div class="bet-card">
     <div class="bet-card-header">
-      <h2 class="mb-0">⚡ Betting Strategy Calculator</h2>
+      <h2>⚡ Betting Strategy Calculator</h2>
     </div>
 
     <div class="bet-card-body">
-      <form class="row g-2">
-        <div class="col-6 col-md-3">
+      <form class="row g-3">
+        <div class="col-12 col-md-3">
           <label class="bet-label">Team A Odds</label>
           <input
             type="number"
@@ -14,11 +14,12 @@
             [(ngModel)]="teamAOdds"
             name="teamAOdds"
             (ngModelChange)="onInputChange(lastChanged || '')"
+            placeholder="e.g. 2.50"
             step="0.01"
           />
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-3">
           <label class="bet-label">Team B Odds</label>
           <input
             type="number"
@@ -26,11 +27,12 @@
             [(ngModel)]="teamBOdds"
             name="teamBOdds"
             (ngModelChange)="onInputChange(lastChanged || '')"
+            placeholder="e.g. 3.00"
             step="0.01"
           />
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-3">
           <label class="bet-label">Target Payout ($)</label>
           <input
             type="number"
@@ -38,11 +40,12 @@
             [(ngModel)]="targetPayout"
             name="targetPayout"
             (ngModelChange)="onInputChange('targetPayout')"
+            placeholder="e.g. 100"
             step="1"
           />
         </div>
 
-        <div class="col-6 col-md-3">
+        <div class="col-12 col-md-3">
           <label class="bet-label">Total Stake ($)</label>
           <input
             type="number"
@@ -50,86 +53,186 @@
             [(ngModel)]="totalStake"
             name="totalStake"
             (ngModelChange)="onInputChange('totalStake')"
+            placeholder="e.g. 50"
             step="1"
           />
         </div>
       </form>
 
-      <hr *ngIf="stakeA && stakeB" class="mt-3 mb-2" />
+      <hr *ngIf="stakeA && stakeB" />
 
-      <div *ngIf="stakeA && stakeB">
+      <div *ngIf="stakeA && stakeB" class="summary-section">
         <div class="row">
-          <div class="col-md-6 mb-3 mb-md-0">
-            <div class="outcome-title">Summary</div>
+          <div class="col-12 col-md-6">
+            <div class="summary-title">💼 Summary</div>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between">
-                <span>Stake on Team A</span>
-                <span class="fw-bold">${{ stakeA.toFixed(2) }}</span>
+                <span>Stake on Team A</span
+                ><span class="fw-bold">${{ stakeA.toFixed(2) }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Stake on Team B</span>
-                <span class="fw-bold">${{ stakeB.toFixed(2) }}</span>
+                <span>Stake on Team B</span
+                ><span class="fw-bold">${{ stakeB.toFixed(2) }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Total Stake</span>
-                <span class="fw-bold">${{ totalStake.toFixed(2) }}</span>
+                <span>Total Stake</span
+                ><span class="fw-bold">${{ totalStake.toFixed(2) }}</span>
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Target Payout</span>
-                <span class="fw-bold">${{ targetPayout.toFixed(2) }}</span>
-              </li>
-              <li class="list-group-item d-flex justify-content-between">
-                <span>Max Potential Loss</span>
-                <span class="fw-bold text-danger"
+                <span>Max Loss</span
+                ><span class="text-danger fw-bold"
                   >${{ maxLoss.toFixed(2) }}</span
                 >
               </li>
             </ul>
           </div>
 
-          <div class="col-md-6">
-            <div class="outcome-title">Possible Outcomes</div>
+          <div class="col-12 col-md-6">
+            <div class="summary-title">📊 Outcomes</div>
             <ul class="list-group">
               <li class="list-group-item d-flex justify-content-between">
-                <span>Profit/Loss if Team A wins</span>
+                <span>Profit if Team A wins</span>
                 <span
+                  [ngClass]="
+                    teamAWinsProfit >= 0 ? 'text-success' : 'text-danger'
+                  "
                   class="fw-bold"
-                  [class.text-success]="teamAWinsProfit >= 0"
-                  [class.text-danger]="teamAWinsProfit < 0"
-                  >${{ teamAWinsProfit.toFixed(2) }}</span
                 >
+                  ${{ teamAWinsProfit.toFixed(2) }}
+                </span>
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Profit/Loss if Team B wins</span>
+                <span>Profit if Team B wins</span>
                 <span
+                  [ngClass]="
+                    teamBWinsProfit >= 0 ? 'text-success' : 'text-danger'
+                  "
                   class="fw-bold"
-                  [class.text-success]="teamBWinsProfit >= 0"
-                  [class.text-danger]="teamBWinsProfit < 0"
-                  >${{ teamBWinsProfit.toFixed(2) }}</span
                 >
+                  ${{ teamBWinsProfit.toFixed(2) }}
+                </span>
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Loss if both lose</span>
+                <span>Both Lose</span>
                 <span class="text-danger fw-bold"
                   >${{ bothLoseLoss.toFixed(2) }}</span
                 >
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Profit/Loss if both win (promo)</span>
+                <span>Both Win (Promo)</span>
                 <span
+                  [ngClass]="
+                    bothWinProfit >= 0 ? 'text-success' : 'text-danger'
+                  "
                   class="fw-bold"
-                  [class.text-success]="bothWinProfit >= 0"
-                  [class.text-danger]="bothWinProfit < 0"
-                  >${{ bothWinProfit.toFixed(2) }}</span
+                >
+                  ${{ bothWinProfit.toFixed(2) }}
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div>
+        <div class="summary-title">🚫 Draw Protection</div>
+        <div class="row g-2">
+          <div class="col-12 col-md-3 draw-field">
+            <label class="bet-label">Draw Odds</label>
+            <input
+              type="number"
+              class="form-control bet-input"
+              [(ngModel)]="drawOdds"
+              name="drawOdds"
+              (ngModelChange)="calculateDrawProtection()"
+              placeholder="e.g. 3.00"
+              step="0.01"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div *ngIf="drawProtectionStake > 0" class="col-12 col-md-6">
+            <div class="summary-title">💼 Draw Summary</div>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Draw Stake</span>
+                <span class="fw-bold"
+                  >${{ drawProtectionStake.toFixed(2) }}</span
                 >
               </li>
               <li class="list-group-item d-flex justify-content-between">
-                <span>Net Profit/Loss (worst win case)</span>
+                <span>Net if Draw</span>
                 <span
                   class="fw-bold"
-                  [class.text-success]="netProfitOrLoss >= 0"
-                  [class.text-danger]="netProfitOrLoss < 0"
-                  >${{ netProfitOrLoss.toFixed(2) }}</span
+                  [ngClass]="drawNet >= 0 ? 'text-success' : 'text-danger'"
+                >
+                  ${{ drawNet.toFixed(2) }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Best Case Profit</span>
+                <span class="fw-bold text-success"
+                  >${{ bestCaseProfit.toFixed(2) }}</span
+                >
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Worst Case Profit/Loss</span>
+                <span
+                  class="fw-bold"
+                  [class.text-success]="worstCaseProfit >= 0"
+                  [class.text-danger]="worstCaseProfit < 0"
+                >
+                  ${{ worstCaseProfit.toFixed(2) }}
+                </span>
+              </li>
+            </ul>
+          </div>
+
+          <div
+            *ngIf="stakeA && stakeB && drawProtectionStake"
+            class="col-12 col-md-6"
+          >
+            <div class="summary-title">💡 Combined Outcome Summary</div>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Net if Team A wins</span>
+                <span
+                  [ngClass]="
+                    combinedAWins >= 0 ? 'text-success' : 'text-danger'
+                  "
+                  class="fw-bold"
+                >
+                  ${{ combinedAWins.toFixed(2) }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Net if Team B wins</span>
+                <span
+                  [ngClass]="
+                    combinedBWins >= 0 ? 'text-success' : 'text-danger'
+                  "
+                  class="fw-bold"
+                >
+                  ${{ combinedBWins.toFixed(2) }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Net if Draw</span>
+                <span
+                  class="fw-bold"
+                  [ngClass]="combinedDraw >= 0 ? 'text-success' : 'text-danger'"
+                >
+                  ${{ combinedDraw.toFixed(2) }}
+                </span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total Stake</span>
+                <span class="fw-bold"
+                  >${{
+                    (stakeA + stakeB + drawProtectionStake).toFixed(2)
+                  }}</span
                 >
               </li>
             </ul>

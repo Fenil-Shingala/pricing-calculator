@@ -1,22 +1,22 @@
+.bet-container {
+  padding: 1rem;
+}
+
 .bet-card {
   border-radius: 1rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  background: #fff;
 }
 
 .bet-card-header {
   background: linear-gradient(90deg, #007bff, #00c6ff);
-  color: white;
+  color: #fff;
   padding: 1rem 1.5rem;
 
   h2 {
+    margin: 0;
     font-size: 1.5rem;
-  }
-
-  @media (max-width: 576px) {
-    h2 {
-      font-size: 1.25rem;
-    }
   }
 }
 
@@ -25,31 +25,43 @@
 }
 
 .bet-label {
-  font-size: 0.95rem;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
 }
 
 .bet-input {
   font-size: 0.9rem;
-  padding: 0.4rem 0.6rem;
+}
+
+.summary-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 .list-group-item {
   font-size: 0.9rem;
-  padding: 8px 12px;
-}
-
-.outcome-title {
-  font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 6px;
-  margin-top: 0;
-  color: #333;
 }
 
 @media (max-width: 576px) {
   .bet-card-body {
     padding: 1rem;
+  }
+  .bet-card-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+hr {
+  margin: 12px 0 6px 0;
+}
+
+.draw-field {
+  display: flex;
+  align-items: center;
+
+  label {
+    width: 170px;
   }
 }
