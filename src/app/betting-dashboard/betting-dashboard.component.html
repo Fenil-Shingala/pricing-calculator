@@ -1,0 +1,146 @@
+<div class="dashboard-wrapper d-flex justify-content-center align-items-start">
+  <div class="dashboard-container w-100">
+    <div
+      class="d-flex align-items-center justify-content-between mb-2 gap-3 header"
+    >
+      <div class="d-flex align-items-center gap-2">
+        <img
+          src="assets/images/dashboard.png"
+          alt="Dashboard"
+          class="dashboard-icon"
+        />
+        <h1 class="dashboard-title">Betting Dashboard</h1>
+      </div>
+
+      <img
+        src="assets/images/calculator.png"
+        alt="Dashboard"
+        class="dashboard-icon cursor"
+        [routerLink]="['/calculator']"
+      />
+    </div>
+
+    <div class="input-group">
+      <div class="input-container">
+        <div class="input-card">
+          <span class="input-icon">🔎</span>
+          <input
+            type="text"
+            class="form-control styled-input"
+            placeholder="Search"
+            [(ngModel)]="search"
+          />
+        </div>
+      </div>
+      <div class="input-container">
+        <div class="input-card">
+          <span class="input-icon">🎯</span>
+          <input
+            type="number"
+            class="form-control styled-input"
+            placeholder="Target Payout"
+            [(ngModel)]="targetPayout"
+            (input)="validateTargetPayout()"
+          />
+        </div>
+      </div>
+      <div class="input-container">
+        <div class="input-card">
+          <span class="input-icon">⚠️</span>
+          <input
+            type="number"
+            class="form-control styled-input"
+            placeholder="Max Draw Loss %"
+            [(ngModel)]="maxDrawLossPercent"
+          />
+        </div>
+      </div>
+      <div class="input-container">
+        <div class="input-card">
+          <span class="input-icon">📅</span>
+          <input
+            type="date"
+            class="form-control styled-input"
+            [(ngModel)]="filterDate"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card-group">
+        <div class="card-detail" *ngFor="let match of calculatedMatches">
+          <div class="match-card">
+            <div
+              class="match-card-header d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <h6 class="match-title">
+                  {{ match.teamHome }} vs {{ match.teamAway }}
+                </h6>
+                <div class="match-time">{{ match.date }} {{ match.time }}</div>
+              </div>
+              <a class="match-link-icon" (click)="autoCalculate(match)"> 🔗 </a>
+            </div>
+
+            <div class="match-data-grid">
+              <div></div>
+              <div class="col-head">Team A</div>
+              <div class="col-head">Draw</div>
+              <div class="col-head">Team B</div>
+
+              <div class="row-label">Odds</div>
+              <div>{{ match.oddsA }}</div>
+              <div>{{ match.oddsDraw }}</div>
+              <div>{{ match.oddsB }}</div>
+
+              <div class="row-label">Stake</div>
+              <div>{{ match.stakeA | number : "1.2-2" }}</div>
+              <div>{{ match.stakeDraw | number : "1.2-2" }}</div>
+              <div>{{ match.stakeB | number : "1.2-2" }}</div>
+
+              <div class="row-label">Profit</div>
+              <div
+                [ngClass]="{
+                  profit: match.profitA > 0,
+                  loss: match.profitA < 0
+                }"
+              >
+                {{ match.profitA | number : "1.2-2" }}
+              </div>
+              <div
+                [ngClass]="{
+                  profit: maxDrawLossPercent < 100 && match.profitDraw > 0,
+                  loss: maxDrawLossPercent < 100 && match.profitDraw < 0
+                }"
+              >
+                {{
+                  maxDrawLossPercent < 100
+                    ? (match.profitDraw | number : "1.2-2")
+                    : "0.00"
+                }}
+              </div>
+              <div
+                [ngClass]="{
+                  profit: match.profitB > 0,
+                  loss: match.profitB < 0
+                }"
+              >
+                {{ match.profitB | number : "1.2-2" }}
+              </div>
+
+              <div class="row-label fw-bold">Best</div>
+              <div class="profit with-background">
+                {{ match.bestCase | number : "1.2-2" }}
+              </div>
+              <div class="row-label fw-bold">Worst</div>
+              <div class="loss with-background">
+                {{ match.worstCase | number : "1.2-2" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

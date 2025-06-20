@@ -1,0 +1,193 @@
+$primary-color: #3f51b5;
+$input-border-color: #d0d7de;
+$hover-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+$card-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+$focus-ring: rgba(63, 81, 181, 0.1);
+$heading-color: #2e3a59;
+$profit-color: #2e7d32;
+$profit-background-color: #2e7d3231;
+$loss-color: #c62828;
+$loss-background-color: #c6282828;
+
+.dashboard-wrapper {
+  overflow: auto;
+
+  .dashboard-container {
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 768px) {
+      padding: 12px;
+    }
+
+    .header {
+      .dashboard-icon {
+        width: 40px;
+        height: 40px;
+
+        &.cursor {
+          cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .dashboard-title {
+        margin: 0;
+        font-size: 1.7rem;
+        font-weight: 700;
+        color: $heading-color;
+
+        @media (max-width: 768px) {
+          font-size: 22px;
+        }
+      }
+    }
+
+    .input-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+
+      @media (max-width: 768px) {
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .input-container {
+        .input-card {
+          position: relative;
+
+          .input-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: #777;
+            z-index: 2;
+            line-height: 15px;
+          }
+
+          .styled-input {
+            padding-left: 36px;
+            border-radius: 12px;
+            border: 1px solid $input-border-color;
+            background: #fff;
+            height: 40px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+
+            &:focus {
+              border-color: $primary-color;
+              box-shadow: 0 0 0 3px $focus-ring;
+              outline: none;
+            }
+          }
+        }
+      }
+    }
+
+    .card-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+
+      .card-detail {
+        .match-card {
+          background: #fff;
+          border-radius: 14px;
+          padding: 14px;
+          box-shadow: $card-shadow;
+          transition: all 0.3s;
+          font-size: 0.85rem;
+          border: 1px solid #f0f0f0;
+
+          &:hover {
+            transform: translateY(-3px);
+            box-shadow: $hover-shadow;
+          }
+
+          .match-card-header {
+            border-bottom: 1px solid #ececec;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+
+            .match-title {
+              font-size: 14px;
+              font-weight: 600;
+              color: #2c3e50;
+              margin-bottom: 2px;
+            }
+
+            .match-time {
+              font-size: 12px;
+              color: #999;
+            }
+
+            .match-link-icon {
+              font-size: 1.2rem;
+              color: #aaa;
+              text-decoration: none;
+              cursor: pointer;
+
+              &:hover {
+                color: $primary-color;
+              }
+            }
+          }
+
+          .match-data-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 0.83rem;
+
+            .col-head {
+              font-weight: 600;
+              color: #555;
+              text-align: center;
+              background-color: #f9fafc;
+              padding: 4px 0;
+              border-radius: 6px;
+            }
+
+            .row-label {
+              font-weight: 500;
+              color: #777;
+            }
+
+            .profit {
+              color: $profit-color;
+              font-weight: 600;
+
+              &.with-background {
+                background-color: $profit-background-color;
+                text-align: center;
+                padding: 0 2px;
+                border-radius: 8px;
+              }
+            }
+
+            .loss {
+              color: $loss-color;
+              font-weight: 600;
+
+              &.with-background {
+                background-color: $loss-background-color;
+                text-align: center;
+                padding: 0 2px;
+                border-radius: 8px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

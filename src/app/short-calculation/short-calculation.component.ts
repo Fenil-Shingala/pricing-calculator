@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-short-calculation',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './short-calculation.component.html',
   styleUrl: './short-calculation.component.scss',
 })
@@ -28,19 +29,24 @@ export class ShortCalculationComponent {
   bestCase = 0;
   worstCase = 0;
   targetProfit = 0;
+  matchLabel = 'Calculator';
 
   cards: any = [];
-  inputFields = [
-    { label: 'Odds Team A', key: 'oddsA', model: 0 },
-    { label: 'Odds Team B', key: 'oddsB', model: 0 },
-    { label: 'Target Payout', key: 'targetPayout', model: 0 },
-    { label: 'Odds Draw', key: 'oddsDraw', model: 0 },
-    {
-      label: 'Draw Loss %',
-      key: 'maxDrawLossPercent',
-      model: this.maxDrawLossPercent,
-    },
-  ];
+  inputFields: any = [];
+
+  constructor(private location: Location) {
+    const state = history.state;
+    if (state.oddsA) {
+      this.oddsA = state.oddsA;
+      this.oddsB = state.oddsB;
+      this.oddsDraw = state.oddsDraw;
+      this.targetPayout = state.targetPayout;
+      this.maxDrawLossPercent = state.maxDrawLossPercent;
+      this.matchLabel = `${state.teamHomeFull} vs ${state.teamAwayFull}`;
+      this.calculateStakes();
+    }
+    this.setInputField();
+  }
 
   ngOnInit(): void {
     this.setCards();
@@ -52,6 +58,10 @@ export class ShortCalculationComponent {
     });
     this.calculateStakes();
     this.setCards();
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   calculateStakes() {
@@ -92,6 +102,21 @@ export class ShortCalculationComponent {
 
     // Worst case: one of the outcomes
     this.worstCase = Math.min(this.profitA, this.profitB, this.profitDraw);
+  }
+
+  setInputField(): void {
+    this.inputFields = [
+      { label: 'Odds Team A', key: 'oddsA', model: this.oddsA },
+      { label: 'Odds Team B', key: 'oddsB', model: this.oddsB },
+      { label: 'Target Payout', key: 'targetPayout', model: this.targetPayout },
+      { label: 'Odds Draw', key: 'oddsDraw', model: this.oddsDraw },
+      {
+        label: 'Draw Loss %',
+        key: 'maxDrawLossPercent',
+        model: this.maxDrawLossPercent,
+        hidden: this.oddsDraw <= 0,
+      },
+    ];
   }
 
   setCards(): void {
