@@ -1,23 +1,36 @@
 <div class="short-calculation-container">
-  <div class="text-center mb-4">
-    <h2 class="fw-bold" style="color: #2f80ed">
-      ⚽ Smart Betting Hedge Calculator
-    </h2>
-    <p class="small text-muted">
-      Balance your bets for profit with controlled risk
-    </p>
+  <div class="text-center header">
+    <div class="text-primary header-title">
+      <img
+        src="assets/images/calculator.png"
+        alt="Dashboard"
+        class="dashboard-icon calculator"
+        [routerLink]="['/calculator']"
+      />
+      <span class="title">{{ matchLabel }}</span>
+    </div>
+    <button class="btn btn-link" (click)="goBack()">
+      <img
+        src="assets/images/dashboard.png"
+        alt="Dashboard"
+        class="dashboard-icon cursor"
+        [routerLink]="['/']"
+      />
+    </button>
   </div>
 
   <div class="d-flex gap-2 flex-wrap flex-sm-nowrap mb-3">
     <div class="w-100" *ngFor="let field of inputFields">
-      <label class="form-label small text-muted">{{ field.label }}</label>
-      <input
-        type="number"
-        class="form-control form-control-sm border rounded shadow-sm"
-        style="background: #fff; border-color: #e0e0e0"
-        [(ngModel)]="field.model"
-        (ngModelChange)="onFieldChange()"
-      />
+      <div *ngIf="!field.hidden">
+        <label class="form-label small text-muted">{{ field.label }}</label>
+        <input
+          type="number"
+          class="form-control form-control-sm border rounded shadow-sm"
+          style="background: #fff; border-color: #e0e0e0"
+          [(ngModel)]="field.model"
+          (ngModelChange)="onFieldChange()"
+        />
+      </div>
     </div>
   </div>
 
