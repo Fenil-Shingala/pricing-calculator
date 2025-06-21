@@ -10,10 +10,12 @@ $loss-color: #c62828;
 $loss-background-color: #c6282828;
 
 .dashboard-wrapper {
+  height: 100vh;
   overflow: auto;
 
   .dashboard-container {
     padding: 15px;
+    padding-right: 6px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 
     @media (max-width: 768px) {
